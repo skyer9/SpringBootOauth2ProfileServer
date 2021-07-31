@@ -1,6 +1,7 @@
 package com.example.springbootoauth2profileserver.web;
 
 import com.example.springbootoauth2profileserver.service.UserService;
+import com.example.springbootoauth2profileserver.web.dto.LoginDto;
 import com.example.springbootoauth2profileserver.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,20 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(WebRequest request, Model model) {
+        LoginDto loginDto = new LoginDto();
+        model.addAttribute("login", loginDto);
         return "login";
+    }
+
+    @PostMapping("/login")
+    public String doLogin(@ModelAttribute("login") @Valid LoginDto loginDto, BindingResult result,
+                         HttpServletRequest request, Errors errors) {
+        try {
+            userService.login(loginDto);
+        } catch (Exception ex) {
+            return "login";
+        }
+
+        return "redirect:/info";
     }
 }

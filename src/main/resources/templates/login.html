@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="us">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
 </head>
 <body>
-login
+
+<h1>로그인</h1>
+
+<form action="/login" th:object="${login}" method="POST">
+    <div>
+        <label>이메일</label>
+        <input th:field="*{email}"/>
+        <p th:each="error: ${#fields.errors('email')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label>비밀번호</label>
+        <input type="password" th:field="*{password}"/>
+        <p th:each="error : ${#fields.errors('password')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <button type="submit" disabled>로그인</button>
+</form>
+
+<a href="/user/join">회원가입</a>
+
 </body>
 </html>

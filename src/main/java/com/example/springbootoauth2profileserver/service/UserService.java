@@ -2,8 +2,10 @@ package com.example.springbootoauth2profileserver.service;
 
 import com.example.springbootoauth2profileserver.domain.User;
 import com.example.springbootoauth2profileserver.domain.UserRepository;
+import com.example.springbootoauth2profileserver.web.dto.LoginDto;
 import com.example.springbootoauth2profileserver.web.dto.UserDto;
 import com.example.springbootoauth2profileserver.web.dto.UserMapper;
+import com.example.springbootoauth2profileserver.web.error.LoginFailureException;
 import com.example.springbootoauth2profileserver.web.error.UserAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -34,5 +36,26 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles("USER");
         return userRepository.save(user);
+    }
+
+    public boolean login(LoginDto loginDto) {
+        if ((loginDto.getEmail() == null) || (loginDto.getPassword() == null)) {
+            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
+        }
+        if (("".equals(loginDto.getEmail())) || ("".equals(loginDto.getPassword()))) {
+            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
+        }
+
+        Optional<User> user = userRepository.findByEmail(loginDto.getEmail());
+
+        if (user.isEmpty()) {
+            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
+        }
+
+        if (!passwordEncoder.matches(loginDto.getPassword(), user.get().getPassword())) {
+            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
+        }
+
+        return true;
     }
 }
