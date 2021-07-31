@@ -35,7 +35,7 @@ public class UserInfoController {
             oAuth2Authentication = (OAuth2Authentication) authentication;
             Set<String> scopes = oAuth2Authentication.getOAuth2Request().getScope();
 
-            Optional<User> user = userService.findByUid(name);
+            Optional<User> user = userService.findByEmail(name);
             if (user.isEmpty()) {
                 return ResponseEntity.ok(profile);
             }
