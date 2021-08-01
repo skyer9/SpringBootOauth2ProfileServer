@@ -37,23 +37,4 @@ public class UserService {
         user.setRoles("USER");
         userRepository.save(user);
     }
-
-    public void login(LoginDto loginDto) {
-        if ((loginDto.getEmail() == null) || (loginDto.getPassword() == null)) {
-            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
-        }
-        if (("".equals(loginDto.getEmail())) || ("".equals(loginDto.getPassword()))) {
-            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
-        }
-
-        Optional<User> user = userRepository.findByEmail(loginDto.getEmail());
-
-        if (user.isEmpty()) {
-            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
-        }
-
-        if (!passwordEncoder.matches(loginDto.getPassword(), user.get().getPassword())) {
-            throw new LoginFailureException("아이디 또는 비밀번호를 확인하세요.");
-        }
-    }
 }

@@ -19,5 +19,4 @@ public final class UserAlreadyExistException extends RuntimeException {
     public UserAlreadyExistException(final Throwable cause) {
         super(cause);
     }
-
 }
