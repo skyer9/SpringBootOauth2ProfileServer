@@ -2,16 +2,17 @@ package com.example.springbootoauth2profileserver.web;
 
 import com.example.springbootoauth2profileserver.domain.User;
 import com.example.springbootoauth2profileserver.service.UserService;
+import com.example.springbootoauth2profileserver.web.dto.UserDto;
 import com.example.springbootoauth2profileserver.web.dto.UserProfile;
+import com.example.springbootoauth2profileserver.web.util.GenericResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,5 +47,15 @@ public class UserInfoController {
         }
 
         return ResponseEntity.ok(profile);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody @Valid UserDto userDto) {
+
+        GenericResponse response = new GenericResponse("", "");
+
+        userService.registerNewUserAccount(userDto);
+
+        return ResponseEntity.ok(response);
     }
 }

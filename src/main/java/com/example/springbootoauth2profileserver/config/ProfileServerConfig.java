@@ -22,7 +22,10 @@ public class ProfileServerConfig extends ResourceServerConfigurerAdapter {
         http.headers().frameOptions().disable();
         http
                 .authorizeRequests()
-                    .antMatchers("/api/userinfo").access("#oauth2.hasScope('profile')")
+                    .antMatchers("/api/register").permitAll()
+                    .and()
+                .authorizeRequests()
+                    .antMatchers("/api/**").access("#oauth2.hasScope('profile')")
                     .and()
                 .authorizeRequests()
                     .antMatchers("/user/**", "/login").permitAll()
