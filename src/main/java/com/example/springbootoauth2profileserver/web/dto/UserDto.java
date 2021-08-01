@@ -2,6 +2,7 @@ package com.example.springbootoauth2profileserver.web.dto;
 
 import com.example.springbootoauth2profileserver.web.annotation.PasswordMatches;
 import com.example.springbootoauth2profileserver.web.annotation.ValidEmail;
+import com.example.springbootoauth2profileserver.web.annotation.ValidPassword;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
+    @ValidPassword
     private String password;
 
     private String matchingPassword;
